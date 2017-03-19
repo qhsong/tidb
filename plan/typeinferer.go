@@ -380,9 +380,9 @@ func (v *typeInferrer) handleFuncCallExpr(x *ast.FuncCallExpr) {
 		"date_format", "rpad", "lpad", "char_func", "conv", "make_set", "oct":
 		tp = types.NewFieldType(mysql.TypeVarString)
 		chs = v.defaultCharset
-	case "strcmp", "isnull", "bit_length", "char_length", "character_length", "crc32", "timestampdiff", "sign", "inet_aton":
+	case "strcmp", "isnull", "bit_length", "char_length", "character_length", "crc32", "timestampdiff", "sign":
 		tp = types.NewFieldType(mysql.TypeLonglong)
-	case "connection_id":
+	case "connection_id", "inet_aton":
 		tp = types.NewFieldType(mysql.TypeLonglong)
 		tp.Flag |= mysql.UnsignedFlag
 	case "find_in_set", ast.Field:

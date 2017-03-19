@@ -25,9 +25,10 @@ func (s *testEvaluatorSuite) TestInetAton(c *C) {
 		expect interface{}
 	}{
 		{"10.0.5.9", 167773449},
-		{"::ffff:10.0.5.9", 167773449},
+		{"::ffff:10.0.5.9", nil},
 		{"NotAIP", nil},
 		{"2001:da8::1", nil},
+		{"127.2.1", 2130837505},
 	}
 	fc := funcs[ast.InetAton]
 	for _, test := range tests {

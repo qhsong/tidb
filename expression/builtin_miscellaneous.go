@@ -15,6 +15,7 @@ package expression
 import (
 	"encoding/binary"
 	"net"
+	"strings"
 	"time"
 
 	"github.com/juju/errors"
@@ -222,17 +223,20 @@ func (b *builtinInetAtonSig) eval(row []types.Datum) (d types.Datum, err error) 
 		return d, errors.Trace(err)
 	}
 
+	d.SetNull()
+	if strings.Contains(ips, ":") {
+		//To void mapped ipv6 address trans to ipv4 address, so we filter all ipv6 address
+		return d, nil
+	}
 	ip := net.ParseIP(ips)
 	if ip == nil {
 		//Not an IP address,return NULL
-		d.SetNull()
 		return d, nil
 	}
 
 	ipv4 := ip.To4()
 	if ipv4 == nil {
 		//Not ipv4
-		d.SetNull()
 		return d, nil
 	}
 
